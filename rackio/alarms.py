@@ -67,7 +67,7 @@ class Alarm:
             'hours': 0,
             'weeks': 0
         }
-        self._shelved_end_time = None
+        self._shelved_until = None
         self._supressed_by_design = False
         self._out_of_service = False
 
@@ -365,13 +365,14 @@ class Alarm:
         self._shelved = True
         self._shelved_time = datetime.now()
         options_time = {key: options[key] if key in options else self._shelved_options_time[key] for key in self._shelved_options_time}
-        self._shelved_end_time = self._shelved_time + timedelta(**options_time)
-
+        self._shelved_until = self._shelved_time + timedelta(**options_time)
         self.set_state(SHELVED)
 
     def unshelve(self):
 
         self._shelved = False
+        self._shelved_time = None
+        self._shelved_until = None
         self.set_state(NORMAL)
 
     def supress_by_design(self):
@@ -443,5 +444,10 @@ class Alarm:
                 self.set_state(NORMAL)
 
             elif _type == BOOL and not value:
+                self.set_state(NORMAL)
+
+        elif _state == SHELVED:
+
+            if not value:
                 self.set_state(NORMAL)
 

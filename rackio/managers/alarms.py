@@ -3,6 +3,7 @@
 
 This module implements Alarm Manager.
 """
+from datetime import datetime
 import queue
 
 from ..engine import CVTEngine
@@ -104,7 +105,9 @@ class AlarmManager:
 
             if _alarm.get_state() == SHELVED:
 
-                print("Alarm TAG: {}".format(tag))
-                print("Shelved Time: {}".format(_alarm._shelved_time))
-                print("Shelved End Time: {}".format(_alarm._shelved_end_time))
+                _now = datetime.now()
+
+                if _now >= _alarm._shelved_until:
+                    
+                    _alarm.unshelve()
     
