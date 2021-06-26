@@ -177,6 +177,7 @@ class Alarm:
             self._process = False
             self._triggered = True
             self._acknowledged = True
+            self._silence = True
 
             message = "Alarm {} has been acknowledged".format(self.get_name())
             priority = 2
