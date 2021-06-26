@@ -9,10 +9,10 @@ import json
 from rackio import status_code
 
 from .core import RackioResource
-from .auth_hook import authorize
+from .auth_hook import auth_token
 
 from ..dao import ControlsDAO, RulesDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE
 
 
 class ControlBaseResource(RackioResource):
@@ -22,7 +22,7 @@ class ControlBaseResource(RackioResource):
 
 class ControlCollectionResource(ControlBaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp):
 
         doc = self.dao.get_all()
@@ -32,7 +32,7 @@ class ControlCollectionResource(ControlBaseResource):
 
 class ControlResource(ControlBaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp, control_name):
 
         doc = self.dao.get(control_name)
@@ -50,7 +50,7 @@ class RuleBaseResource(RackioResource):
 
 class RuleCollectionResource(RuleBaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp):
 
         doc = self.dao.get_all()
@@ -60,7 +60,7 @@ class RuleCollectionResource(RuleBaseResource):
 
 class RuleResource(RuleBaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp, rule_name):
         
         doc = self.dao.get(rule_name)

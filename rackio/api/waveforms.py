@@ -7,10 +7,11 @@ This module implements all Waveforms Resources.
 import json
 
 from .core import RackioResource
-from .auth_hook import authorize
+from .auth_hook import auth_token
 
 from ..dao import TagsDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, GUEST_ROLE, OPERATOR_ROLE, ANALYST_ROLE
+from ..managers.auth import SUPERVISOR_ROLE
 
 
 class BaseResource(RackioResource):
@@ -20,7 +21,7 @@ class BaseResource(RackioResource):
 
 class WaveformResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_post(self, req, resp, tag_id):
 
         tstart = req.media.get('tstart')
@@ -33,7 +34,7 @@ class WaveformResource(BaseResource):
 
 class WaveformCollectionResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_post(self, req, resp):
 
         tags = req.media.get('tags')

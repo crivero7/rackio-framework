@@ -7,10 +7,10 @@ This module implements History Resources.
 import json
 
 from .core import RackioResource
-from .auth_hook import authorize
+from .auth_hook import auth_token
 
 from ..dao import TagsDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE
 
 
 class BaseResource(RackioResource):
@@ -20,7 +20,7 @@ class BaseResource(RackioResource):
 
 class TagHistoryResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp, tag_id):
 
         doc = self.dao.get_history(tag_id)

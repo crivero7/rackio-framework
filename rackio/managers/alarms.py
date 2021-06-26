@@ -7,6 +7,7 @@ import queue
 
 from ..engine import CVTEngine
 from ..models import TagObserver
+from ..alarms import SHELVED
 
 
 class AlarmManager:
@@ -100,4 +101,10 @@ class AlarmManager:
             if tag == _alarm.get_tag():
 
                 _alarm.update(value)
+
+            if _alarm.get_state() == SHELVED:
+
+                print("Alarm TAG: {}".format(tag))
+                print("Shelved Time: {}".format(_alarm._shelved_time))
+                print("Shelved End Time: {}".format(_alarm._shelved_end_time))
     

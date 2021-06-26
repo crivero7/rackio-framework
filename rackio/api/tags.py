@@ -7,10 +7,11 @@ This module implements all Tag Resources for the Tag Engine.
 import json
 
 from .core import RackioResource
-from .auth_hook import authorize
+from .auth_hook import auth_token
 
 from ..dao import TagsDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE
+from ..managers.auth import GUEST_ROLE
 
 
 class BaseResource(RackioResource):
@@ -20,7 +21,7 @@ class BaseResource(RackioResource):
 
 class TagCollectionResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_get(self, req, resp):
 
         doc = self.dao.get_all()
@@ -30,14 +31,14 @@ class TagCollectionResource(BaseResource):
 
 class TagResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_get(self, req, resp, tag_id):
 
         doc = self.dao.get(tag_id)
 
         resp.body = json.dumps(doc, ensure_ascii=False)
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE])
     def on_post(self, req, resp, tag_id):
         
         value = req.media.get('value')

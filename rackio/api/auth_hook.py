@@ -53,8 +53,9 @@ def authorize(roles):
 
 class AuthToken(object):
 
-    def __init__(self):
+    def __init__(self, roles=None):
 
+        self._roles = roles
         self._auth = AuthDAO()
 
     def get_app(self):
@@ -79,8 +80,25 @@ class AuthToken(object):
 
             raise falcon.HTTPUnauthorized(title='Unauthorized', description=msg)
 
+        user = self._auth.read_by_key(token)
 
-auth_token = rackio_hook.before(AuthToken())
+        role = self._auth.get_role(user.username)
+
+        if self._roles:
+
+            if not role in self._roles:
+                
+                msg = "User is not authorized to access this area"
+                
+                raise falcon.HTTPUnauthorized(title='Unauthorized', description=msg)
+
+# auth_token = rackio_hook.before(AuthToken())
+
+def auth_token(roles=None):
+
+    auth = AuthToken(roles)
+
+    return rackio_hook.before(auth)
 
 
 class AuthUserForm(object):
@@ -114,3 +132,4 @@ class AuthUserForm(object):
 
 
 auth_user_form = rackio_hook.before(AuthUserForm())
+

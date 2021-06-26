@@ -9,10 +9,11 @@ import json
 from rackio import status_code
 
 from .core import RackioResource
-from .auth_hook import authorize
+from .auth_hook import auth_token
 
 from ..dao import AlarmsDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE
+from ..managers.auth import GUEST_ROLE
 
 
 class BaseResource(RackioResource):
@@ -22,7 +23,7 @@ class BaseResource(RackioResource):
 
 class AlarmCollectionResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_get(self, req, resp):
 
         doc = self.dao.get_all()
@@ -32,7 +33,7 @@ class AlarmCollectionResource(BaseResource):
 
 class AlarmResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_get(self, req, resp, alarm_name):
 
         doc = self.dao.get(alarm_name)
@@ -44,7 +45,7 @@ class AlarmResource(BaseResource):
         else:
             resp.status = status_code.HTTP_NOT_FOUND
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE])
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE])
     def on_post(self, req, resp, alarm_name):
         
         action = req.media.get('action')

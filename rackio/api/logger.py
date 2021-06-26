@@ -10,7 +10,7 @@ from .core import RackioResource
 from .auth_hook import auth_token
 
 from ..dao import LoggerDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, ANALYST_ROLE, GUEST_ROLE
 
 
 class BaseResource(RackioResource):
@@ -20,7 +20,7 @@ class BaseResource(RackioResource):
 
 class LoggerResource(BaseResource):
 
-    @auth_token
+    @auth_token([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_get(self, req, resp):
 
         tags = self.dao.get_all()

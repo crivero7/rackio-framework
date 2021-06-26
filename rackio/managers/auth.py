@@ -10,7 +10,8 @@ SYSTEM_ROLE = "System"
 ADMIN_ROLE = "Admin"
 SUPERVISOR_ROLE = "Supervisor"
 OPERATOR_ROLE = "Operator"
-VISITOR_ROLE = "Visitor"
+ANALYST_ROLE = "Analyst"
+GUEST_ROLE = "Guest"
 
 ROOT_USER = "root"
 ROOT_PASSWORD = "RackioRocks!"
@@ -23,7 +24,7 @@ class AuthManager:
 
         self.auth = AuthDAO()
         self.ROLES = [SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE]
-        self.ROLES += [OPERATOR_ROLE, VISITOR_ROLE]
+        self.ROLES += [OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE]
 
         self.roles = list()
         self.users = list()

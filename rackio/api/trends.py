@@ -10,7 +10,8 @@ from .core import RackioResource
 from .auth_hook import authorize
 
 from ..dao import TagsDAO
-from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE
+from ..managers.auth import SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE
+from ..managers.auth import GUEST_ROLE
 
 
 class BaseResource(RackioResource):
@@ -20,7 +21,7 @@ class BaseResource(RackioResource):
 
 class TrendResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @authorize([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_post(self, req, resp, tag_id):
 
         tstart = req.media.get('tstart')
@@ -33,7 +34,7 @@ class TrendResource(BaseResource):
 
 class TrendCollectionResource(BaseResource):
 
-    @authorize([SYSTEM_ROLE, ADMIN_ROLE, VISITOR_ROLE])
+    @authorize([SYSTEM_ROLE, ADMIN_ROLE, SUPERVISOR_ROLE, OPERATOR_ROLE, ANALYST_ROLE, GUEST_ROLE])
     def on_post(self, req, resp):
 
         tags = req.media.get('tags')
