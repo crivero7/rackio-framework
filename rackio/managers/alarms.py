@@ -8,10 +8,16 @@ import queue
 
 from ..engine import CVTEngine
 from ..models import TagObserver
-from ..alarms import SHELVED
+from ..alarms import SHELVED, USER
+from ..dbmodels import Alarm as AlarmModel
+from ..dao import EventsDAO
+
+
 
 
 class AlarmManager:
+
+    dao = EventsDAO()
 
     def __init__(self):
 
@@ -107,7 +113,27 @@ class AlarmManager:
 
                 _now = datetime.now()
 
-                if _now >= _alarm._shelved_until:
-                    
-                    _alarm.unshelve()
+                if _alarm._shelved_until:
+
+                    if _now >= _alarm._shelved_until:
+                        message = "Alarm {} unshelved".format(_alarm.get_name())
+                        priority = 2
+                        classification = USER
+                        AlarmModel.create(
+                            user=USER, 
+                            message=message,
+                            description=_alarm._description,
+                            classification=classification, 
+                            priority=priority, 
+                            date_time=_now,
+                            name=_alarm.get_name(),
+                            state=_alarm.get_state()
+                        )
+
+                        criticity = 2
+                        
+                        self.dao.write(USER, message, _alarm._description, priority, criticity)
+                        
+                        _alarm.unshelve()
+
     

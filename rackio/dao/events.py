@@ -7,6 +7,7 @@ from .core import RackioDAO
 
 from ..events import Event
 from ..utils import serialize_dbo
+from datetime import datetime
 
 
 class EventsDAO(RackioDAO):
@@ -29,6 +30,8 @@ class EventsDAO(RackioDAO):
         return result
 
     def write(self, user, message, description, priority, criticity):
+
+        _logger = self.logger_engine
 
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 

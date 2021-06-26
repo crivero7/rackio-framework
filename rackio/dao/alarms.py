@@ -61,7 +61,7 @@ class AlarmsDAO(RackioDAO):
 
         return alarm
 
-    def update(self, name, action):
+    def update(self, name, action, **options):
 
         alarm = self.get(name, serialize=False)
 
@@ -98,7 +98,7 @@ class AlarmsDAO(RackioDAO):
 
         elif action == "Shelve":
 
-            alarm.shelve()
+            alarm.shelve(**options)
 
         elif action == "Unshelve":
 

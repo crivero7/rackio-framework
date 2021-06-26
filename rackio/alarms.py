@@ -60,7 +60,7 @@ class Alarm:
         self._shelved_time = None
         self._shelved_options_time = {
             'days': 0,
-            'seconds': 30,
+            'seconds': 0,
             'microseconds': 0,
             'milliseconds': 0,
             'minutes': 0,
@@ -355,18 +355,19 @@ class Alarm:
 
         * **days:** (int)
         * **seconds:** (int)
-        * ** microseconds:** (int)
-        * **milliseconds:** (int)
         * **minutes:** (int)
         * **hours:** (int)
         * **weeks:** (int)
         """
 
         self._shelved = True
-        self._shelved_time = datetime.now()
         options_time = {key: options[key] if key in options else self._shelved_options_time[key] for key in self._shelved_options_time}
-        self._shelved_until = self._shelved_time + timedelta(**options_time)
-        self.set_state(SHELVED)
+        if options_time==self._shelved_options_time:
+            self.set_state(SHELVED)
+        else:
+            self._shelved_time = datetime.now()
+            self._shelved_until = self._shelved_time + timedelta(**options_time)
+            self.set_state(SHELVED)
 
     def unshelve(self):
 
