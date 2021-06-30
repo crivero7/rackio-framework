@@ -178,7 +178,6 @@ class Model(object):
             else:
                 if _type == FLOAT:
                     setattr(self, key, 0.0)
-
                 elif _type == INTEGER:
                     setattr(self, key, 0)
                 elif _type == BOOL:

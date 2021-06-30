@@ -57,7 +57,7 @@ class Rackio(Singleton):
         
         self._context = context
 
-        self.max_workers = 10
+        self.max_workers = 20
         self._logging_level = logging.INFO
         self._log_file = ""
         self._port = 8000
