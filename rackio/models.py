@@ -100,9 +100,10 @@ class PropertyType:
     Implement an abstract propery type
     """
 
-    def __init__(self, _type, default=None):
+    def __init__(self, _type, default=None, unit=None):
 
         self._type = _type
+        self.unit = unit
         self.default = default
 
 
@@ -112,9 +113,9 @@ class StringType(PropertyType):
     Implement a Float Type
     """
 
-    def __init__(self, default=None):
+    def __init__(self, default=None, unit=None):
 
-        super(StringType, self).__init__(STRING, default)
+        super(StringType, self).__init__(STRING, default, unit)
 
 
 class FloatType(PropertyType):
@@ -123,9 +124,9 @@ class FloatType(PropertyType):
     Implement a Float Type
     """
 
-    def __init__(self, default=None):
+    def __init__(self, default=None, unit=None):
 
-        super(FloatType, self).__init__(FLOAT, default)
+        super(FloatType, self).__init__(FLOAT, default, unit)
 
 
 class IntegerType(PropertyType):
@@ -134,9 +135,9 @@ class IntegerType(PropertyType):
     Implement an Integer Typle
     """
 
-    def __init__(self, default=None):
+    def __init__(self, default=None, unit=None):
 
-        super(IntegerType, self).__init__(INTEGER, default)
+        super(IntegerType, self).__init__(INTEGER, default, unit)
 
         
 class BooleanType(PropertyType):
@@ -145,9 +146,9 @@ class BooleanType(PropertyType):
     Implement a Boolean Type
     """
 
-    def __init__(self, default=None):
+    def __init__(self, default=None, unit=None):
 
-        super(BooleanType, self).__init__(BOOL, default)
+        super(BooleanType, self).__init__(BOOL, default, unit)
 
 
 class Model(object):
@@ -161,13 +162,14 @@ class Model(object):
         attrs = self.get_attributes()
 
         for key, value in attrs.items():
-
+            
             if key in kwargs:
                 default = kwargs[key]
             else:
                 try:
                     default = value.default
                     _type = value._type
+                    
                 except Exception as e:
                     continue
 
@@ -176,6 +178,7 @@ class Model(object):
             else:
                 if _type == FLOAT:
                     setattr(self, key, 0.0)
+
                 elif _type == INTEGER:
                     setattr(self, key, 0)
                 elif _type == BOOL:

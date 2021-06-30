@@ -302,7 +302,7 @@ class RackioStateMachine(StateMachine):
         attrs = self.get_attributes()
 
         for key, value in attrs.items():
-
+        
             try:
 
                 if isinstance(value, TagBinding):
@@ -322,7 +322,7 @@ class RackioStateMachine(StateMachine):
                 else:
                     default = value.default
                     _type = value._type
-
+                    
                 if default:
                     setattr(self, key, default)
                 else:
@@ -378,6 +378,12 @@ class RackioStateMachine(StateMachine):
         )
 
         for key, value in props.items():
+
+            # print("Get attributes: Key {} - Value {}".format(key, value))
+
+            # if hasattr(value, 'unit'):
+
+            #     print("Value has unit {}".format(value.unit))
 
             if key in forbidden_attributes:
                 continue
