@@ -105,14 +105,10 @@ class AlarmManager:
 
         for _alarm in self._alarms:
 
-            if tag == _alarm.get_tag():
-
-                _alarm.update(value)
-
             if _alarm.get_state() == SHELVED:
 
                 _now = datetime.now()
-
+                
                 if _alarm._shelved_until:
 
                     if _now >= _alarm._shelved_until:
@@ -135,5 +131,16 @@ class AlarmManager:
                         self.dao.write(USER, message, _alarm._description, priority, criticity)
                         
                         _alarm.unshelve()
+                        continue
+
+                    continue
+
+                continue
+
+            if tag == _alarm.get_tag():
+
+                _alarm.update(value)
+
+            
 
     

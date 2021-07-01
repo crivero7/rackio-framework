@@ -88,7 +88,6 @@ class QueryLogger:
         result = dict()
 
         values = [{"x": value.timestamp.strftime(OUTPUT_DATETIME_FORMAT), "y": value.value} for count, value in enumerate(values) if count % sampling == 0]
-
         result["values"] = values
 
         return result
