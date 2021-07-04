@@ -43,7 +43,7 @@ class NotifyAlarmOperation(object):
 
             alarm_name = params['alarm_name']
             event_values = dict(user='{}'.format(username),
-                                message='Alarm operation: {}'.format(action),
+                                message='Event',
                                 description='Operation {} in {}'.format(action, alarm_name),
                                 classification='{}'.format('user'),
                                 priority='{}'.format(3),
@@ -52,7 +52,7 @@ class NotifyAlarmOperation(object):
         else:
 
             event_values = dict(user='{}'.format(username),
-                            message='Alarm operation: {}'.format(action),
+                            message='Event',
                             description='Operation: {}'.format(action),
                             classification='{}'.format('user'),
                             priority='{}'.format(3),
@@ -90,7 +90,7 @@ class NotifyRestartSystems(object):
 
                 event_values = {
                     'user': '{}'.format(username),
-                    'message': '{} {}'.format(machine.name, "restarting"),
+                    'message': 'Event',
                     'description': '{} engine was switched to {}'.format(machine.name, "restarting"),
                     'classification': '{}'.format(machine.classification),
                     'priority': '{}'.format(machine.priority),
@@ -130,7 +130,7 @@ class NotifyTransition(object):
 
         event_values = {
             'user': '{}'.format(username),
-            'message': '{} {}'.format(machine.name, target_transition),
+            'message': 'Event',
             'description': '{} engine was switched to {}'.format(machine.name, target_transition),
             'classification': '{}'.format(machine.classification),
             'priority': '{}'.format(machine.priority),

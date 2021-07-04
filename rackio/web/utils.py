@@ -20,7 +20,12 @@ def get_content_type(filename):
     ext = get_extension(filename)
 
     if ext in (".ttf", ".woff", ".woff2"):
+        
         return external_mimetypes[ext]
+
+    elif ext in (".map"):
+
+        return
 
     return mimetypes.types_map[ext]
 
