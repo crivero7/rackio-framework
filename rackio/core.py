@@ -62,6 +62,8 @@ class Rackio(Singleton):
         self._log_file = ""
         self._port = 8000
         self._mode = "development"
+        self._app_name = None
+        self._app_section = None
 
         self.config = RackioConfig()
 
@@ -86,6 +88,22 @@ class Rackio(Singleton):
     def set_mode(self, mode):
 
         self._mode = mode
+
+    def set_app_name(self, app_name):
+
+        self._app_name = app_name
+
+    def set_app_section(self, app_section):
+
+        self._app_section = app_section
+
+    def get_app_name(self):
+
+        return self._app_name
+
+    def get_app_section(self):
+
+        return self._app_section
 
     def get_mode(self):
 
@@ -411,6 +429,8 @@ class Rackio(Singleton):
             manager = self._alarm_manager
         elif name == "state":
             manager = self._machine_manager
+        elif name == 'db':
+            manager = self._db_manager
         else:
             manager = self._function_manager
 
@@ -710,7 +730,7 @@ class Rackio(Singleton):
                 message = "Error on continous functions worker start-up"
                 log_detailed(e, message)
 
-    def run(self, port=8000):
+    def run(self, port=8000, app_name=None, app_section=None):
         """
         Runs the main execution for the application to start serving.
         
@@ -726,6 +746,8 @@ class Rackio(Singleton):
         """
 
         self.set_port(port)
+        self.set_app_name(app_name)
+        self.set_app_section(app_section)
 
         self._start_logger()
         self._start_workers()

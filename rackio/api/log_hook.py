@@ -91,7 +91,7 @@ class NotifyRestartSystems(object):
                 event_values = {
                     'user': '{}'.format(username),
                     'message': 'Event',
-                    'description': '{} engine was switched to {}'.format(machine.name, "restarting"),
+                    'description': '{} machine was switched to {}'.format(machine.name, "restarting"),
                     'classification': '{}'.format(machine.classification),
                     'priority': '{}'.format(machine.priority),
                     'criticity': '{}'.format(machine.criticity),
@@ -131,7 +131,7 @@ class NotifyTransition(object):
         event_values = {
             'user': '{}'.format(username),
             'message': 'Event',
-            'description': '{} engine was switched to {}'.format(machine.name, target_transition),
+            'description': '{} machine was switched to {}'.format(machine.name, target_transition),
             'classification': '{}'.format(machine.classification),
             'priority': '{}'.format(machine.priority),
             'criticity': '{}'.format(machine.criticity),
@@ -167,7 +167,7 @@ class NotifyPriority(object):
         event_values = {
             'user': '{}'.format(username),
             'message': 'User operation',
-            'description': '{} engine priority was updated'.format(machine.name),
+            'description': '{} machine priority was updated'.format(machine.name),
             'classification': '{}'.format(machine.classification),
             'priority': '{}'.format(priority),
             'criticity': '{}'.format(machine.criticity),
@@ -202,7 +202,7 @@ class NotifyOperationMode(object):
         event_values = {
             'user': '{}'.format(username),
             'message': 'User operation',
-            'description': '{} engine operation mode was updated to'.format(machine.name, mode),
+            'description': '{} machine operation mode was updated to'.format(machine.name, mode),
             'classification': '{}'.format(machine.classification),
             'priority': '{}'.format(machine.priority),
             'criticity': '{}'.format(machine.criticity),
