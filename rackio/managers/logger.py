@@ -10,7 +10,7 @@ from datetime import datetime
 from ..logger import LogTable, LoggerEngine
 from ..dbmodels import TagTrend, TagValue, Event, Alarm, Blob
 from ..dbmodels import UserRole, User, Authentication, AlarmSummary
-# from ..dbmodels import System, Reliability, Anomaly
+from ..dbmodels import System, Reliability, Anomaly
 from ..utils import serialize_dbo
 from .._singleton import Singleton
 
@@ -31,9 +31,9 @@ class LoggerManager:
         self._logger = LoggerEngine()
         self._auth = AuthManager()
 
-        self._tables = [TagTrend, TagValue, Event, Alarm, Blob]
+        self._tables = [Anomaly, Reliability, System]
+        self._tables += [TagTrend, TagValue, Event, Alarm, Blob]
         self._tables += [UserRole, User, Authentication, AlarmSummary]
-        # self._tables += [Anomaly, Reliability, System]
 
     def set_db(self, db):
 
@@ -125,7 +125,7 @@ class LoggerManager:
     
         if self.get_dropped():
             try:
-                self.drop_tables()
+                self.drop_tables(cascade=True)
             except Exception as e:
                 error = str(e)
                 logging.error("Database:{}".format(error))

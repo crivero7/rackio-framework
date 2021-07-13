@@ -58,14 +58,12 @@ class DataLogger:
 
         if not self._db:
             return
-        
         self._db.create_tables(tables, safe=True)
 
     def drop_tables(self, tables):
 
         if not self._db:
             return
-
         self._db.drop_tables(tables)
 
     def write_tag(self, tag, value):

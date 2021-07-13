@@ -117,140 +117,140 @@ class Authentication(BaseModel):
     expire = DateField(default=date.today)
 
 
-# class Anomaly(BaseModel):
+class Anomaly(BaseModel):
 
-#     user = CharField()
-#     instrument = TextField()
-#     anomaly = TextField()
-#     date_time = DateTimeField()
-
-
-# class System(BaseModel):
-
-#     system_name = TextField(unique=True)
-
-#     @classmethod
-#     def add(cls, system_name):
-#         r"""
-#         Create a new record in the Systems table
-#         """
-#         system = System.create(system_name=system_name)
-
-#         return system
+    user = CharField()
+    instrument = TextField()
+    anomaly = TextField()
+    date_time = DateTimeField()
 
 
-# class Reliability(BaseModel):
+class System(BaseModel):
 
-#     timestamp = DateTimeField(default=datetime.now)
-#     leak = BooleanField(default=False)
-#     false_leak = BooleanField(default=False)
-#     no_detected_leak = BooleanField(default=False)
-#     system = ForeignKeyField(System)
-#     user = ForeignKeyField(User)
+    system_name = TextField(unique=True)
 
-#     @classmethod
-#     def add(cls, username, system_name, leak=False, false_leak=False, no_detected_leak=False):
-#         r"""
-#         Create a new record in the Reliability table
-#         """
-#         user = User.get(username=username)
-#         system = System.get(system_name=system_name)
+    @classmethod
+    def add(cls, system_name):
+        r"""
+        Create a new record in the Systems table
+        """
+        system = System.create(system_name=system_name)
 
-#         return Reliability.create(
-#             user_id=user.id, 
-#             system_id=system.id,
-#             leak=leak,
-#             false_leak=false_leak,
-#             no_detected_leak=no_detected_leak
-#             )
+        return system
 
-#     @classmethod
-#     def add_leak(cls, username, system_name, leak=True, false_leak=False, no_detected_leak=False):
-#         r"""
-#         Create a new record in the Reliability table
-#         """
-#         user = User.get(username=username)
-#         system = System.get(system_name=system_name)
 
-#         return Reliability.create(
-#             user_id=user.id, 
-#             system_id=system.id,
-#             leak=leak,
-#             false_leak=false_leak,
-#             no_detected_leak=no_detected_leak
-#             )
+class Reliability(BaseModel):
 
-#     @classmethod
-#     def add_false_leak(cls, username, system_name, leak=True, false_leak=True, no_detected_leak=False):
-#         r"""
-#         Create a new record in the Reliability table
-#         """
-#         user = User.get(username=username)
-#         system = System.get(system_name=system_name)
+    timestamp = DateTimeField(default=datetime.now)
+    leak = BooleanField(default=False)
+    false_leak = BooleanField(default=False)
+    no_detected_leak = BooleanField(default=False)
+    system = ForeignKeyField(System)
+    user = ForeignKeyField(User)
 
-#         return Reliability.create(
-#             user_id=user.id, 
-#             system_id=system.id,
-#             leak=leak,
-#             false_leak=false_leak,
-#             no_detected_leak=no_detected_leak
-#             )
+    @classmethod
+    def add(cls, username, system_name, leak=False, false_leak=False, no_detected_leak=False):
+        r"""
+        Create a new record in the Reliability table
+        """
+        user = User.get(username=username)
+        system = System.get(system_name=system_name)
 
-#     @classmethod
-#     def add_no_detected_leak(cls, username, system_name, leak=True, false_leak=False, no_detected_leak=True):
-#         r"""
-#         Create a new record in the Reliability table
-#         """
-#         user = User.get(username=username)
-#         system = System.get(system_name=system_name)
+        return Reliability.create(
+            user_id=user.id, 
+            system_id=system.id,
+            leak=leak,
+            false_leak=false_leak,
+            no_detected_leak=no_detected_leak
+            )
 
-#         return Reliability.create(
-#             user_id=user.id, 
-#             system_id=system.id,
-#             leak=leak,
-#             false_leak=false_leak,
-#             no_detected_leak=no_detected_leak
-#             )
+    @classmethod
+    def add_leak(cls, username, system_name, leak=True, false_leak=False, no_detected_leak=False):
+        r"""
+        Create a new record in the Reliability table
+        """
+        user = User.get(username=username)
+        system = System.get(system_name=system_name)
 
-#     @classmethod
-#     def get_leak(cls, system_name, start, stop):
-#         r"""
-#         Documentation here
-#         """
-#         system = System.get(system_name=system_name)
-#         how_many_leaks = len(Reliability.select().where(
-#             (Reliability.timestamp >= start) &
-#             (Reliability.timestamp <= stop) &
-#             (Reliability.leak == True) &
-#             (Reliability.system == system.id)))
+        return Reliability.create(
+            user_id=user.id, 
+            system_id=system.id,
+            leak=leak,
+            false_leak=false_leak,
+            no_detected_leak=no_detected_leak
+            )
 
-#         return how_many_leaks
+    @classmethod
+    def add_false_leak(cls, username, system_name, leak=True, false_leak=True, no_detected_leak=False):
+        r"""
+        Create a new record in the Reliability table
+        """
+        user = User.get(username=username)
+        system = System.get(system_name=system_name)
 
-#     @classmethod
-#     def get_false_leak(cls, system_name, start, stop):
-#         r"""
-#         Documentation here
-#         """
-#         system = System.get(system_name=system_name)
-#         how_many_false_leaks = len(Reliability.select().where(
-#             (Reliability.timestamp >= start) &
-#             (Reliability.timestamp <= stop) &
-#             (Reliability.false_leak == True) &
-#             (Reliability.system == system.id)))
+        return Reliability.create(
+            user_id=user.id, 
+            system_id=system.id,
+            leak=leak,
+            false_leak=false_leak,
+            no_detected_leak=no_detected_leak
+            )
 
-#         return how_many_false_leaks
+    @classmethod
+    def add_no_detected_leak(cls, username, system_name, leak=True, false_leak=False, no_detected_leak=True):
+        r"""
+        Create a new record in the Reliability table
+        """
+        user = User.get(username=username)
+        system = System.get(system_name=system_name)
 
-#     @classmethod
-#     def get_no_detected_leak(cls, system_name, start, stop):
-#         r"""
-#         Documentation here
-#         """
+        return Reliability.create(
+            user_id=user.id, 
+            system_id=system.id,
+            leak=leak,
+            false_leak=false_leak,
+            no_detected_leak=no_detected_leak
+            )
 
-#         system = System.get(system_name=system_name)
-#         how_many_no_detected_leaks = len(Reliability.select().where(
-#                     (Reliability.timestamp >= start) &
-#                     (Reliability.timestamp <= stop) &
-#                     (Reliability.no_detected_leak == True) &
-#                     (Reliability.system == system.id)))
+    @classmethod
+    def get_leak(cls, system_name, start, stop):
+        r"""
+        Documentation here
+        """
+        system = System.get(system_name=system_name)
+        how_many_leaks = len(Reliability.select().where(
+            (Reliability.timestamp >= start) &
+            (Reliability.timestamp <= stop) &
+            (Reliability.leak == True) &
+            (Reliability.system == system.id)))
 
-#         return how_many_no_detected_leaks
+        return how_many_leaks
+
+    @classmethod
+    def get_false_leak(cls, system_name, start, stop):
+        r"""
+        Documentation here
+        """
+        system = System.get(system_name=system_name)
+        how_many_false_leaks = len(Reliability.select().where(
+            (Reliability.timestamp >= start) &
+            (Reliability.timestamp <= stop) &
+            (Reliability.false_leak == True) &
+            (Reliability.system == system.id)))
+
+        return how_many_false_leaks
+
+    @classmethod
+    def get_no_detected_leak(cls, system_name, start, stop):
+        r"""
+        Documentation here
+        """
+
+        system = System.get(system_name=system_name)
+        how_many_no_detected_leaks = len(Reliability.select().where(
+                    (Reliability.timestamp >= start) &
+                    (Reliability.timestamp <= stop) &
+                    (Reliability.no_detected_leak == True) &
+                    (Reliability.system == system.id)))
+
+        return how_many_no_detected_leaks
